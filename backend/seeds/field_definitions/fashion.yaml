@@ -1,0 +1,110 @@
+area: fashion
+
+kinds:
+  - {id: topwear,     label: "Tops & shirts",        template: product, synonyms: [top, tops, t shirt, tshirt, tee, shirt, crop top]}
+  - {id: bottomwear,  label: "Jeans & bottoms",      template: product, synonyms: [jeans, trousers, pants, skirt, shorts, joggers, cargos]}
+  - {id: ethnic_wear, label: "Ethnic wear",          template: product, synonyms: [kurta, kurti, saree, sari, lehenga, salwar suit, anarkali, sherwani, ethnic]}
+  - {id: dresses,     label: "Dresses",              template: product, synonyms: [dress, gown, maxi dress, jumpsuit, co ord set]}
+  - {id: winterwear,  label: "Winterwear",           template: product, synonyms: [jacket, sweater, hoodie, sweatshirt, coat, shawl]}
+  - {id: footwear,    label: "Footwear",             template: product, synonyms: [shoes, sneakers, sandals, heels, slippers, chappals, flip flops, juttis, mojaris, kolhapuris]}
+  - {id: bags,        label: "Bags",                 template: product, synonyms: [bag, handbag, backpack, tote, sling bag, wallet]}
+  - {id: accessories, label: "Jewellery & accessories", template: product, synonyms: [jewellery, jewelry, earrings, necklace, belt, sunglasses]}
+  - {id: store,       label: "Store or market",      template: place,   synonyms: [shop, boutique, showroom, clothing store, street market, market]}
+
+fields:
+  - key: brand_or_store
+    label: Brand or store
+    type: text
+    role: text
+
+  - key: size_bought
+    label: Size you bought
+    type: single
+    role: soft
+    options:
+      - {value: xs,        label: "XS"}
+      - {value: s,         label: "S"}
+      - {value: m,         label: "M"}
+      - {value: l,         label: "L"}
+      - {value: xl,        label: "XL"}
+      - {value: xxl,       label: "XXL"}
+      - {value: xxxl,      label: "3XL"}
+      - {value: free_size, label: "Free size", synonyms: [free size, one size]}
+
+  - key: shoe_size
+    label: Shoe size (UK)
+    type: int
+    unit: UK
+    min: 1
+    max: 15
+    role: soft
+
+  - key: fit
+    label: Fit
+    type: single
+    role: soft
+    options:
+      - {value: runs_small,   label: "Runs small",   synonyms: [runs small, size up, tight fit]}
+      - {value: true_to_size, label: "True to size", synonyms: [true to size, perfect fit, fits well]}
+      - {value: runs_large,   label: "Runs large",   synonyms: [runs large, size down, loose fit]}
+
+  - key: wear_occasion
+    label: Occasion
+    type: multi
+    role: soft
+    options:
+      - {value: college, label: "College", synonyms: [campus, college wear]}
+      - {value: office,  label: "Office",  synonyms: [work, workwear, formal, formals]}
+      - {value: casual,  label: "Casual",  synonyms: [everyday, daily wear]}
+      - {value: festive, label: "Festive", synonyms: [festival, diwali, eid, navratri, puja, durga puja]}
+      - {value: wedding, label: "Wedding", synonyms: [shaadi, sangeet, mehendi, haldi, reception]}
+      - {value: party,   label: "Party",   synonyms: [night out, clubbing]}
+      - {value: travel,  label: "Travel",  synonyms: [vacation, trip, holiday]}
+      - {value: gym,     label: "Gym",     synonyms: [workout, activewear, sportswear]}
+
+  - key: fabric
+    label: Fabric
+    type: single
+    role: soft
+    options:
+      - {value: cotton,    label: "Cotton",    synonyms: [pure cotton]}
+      - {value: linen,     label: "Linen"}
+      - {value: rayon,     label: "Rayon",     synonyms: [viscose]}
+      - {value: polyester, label: "Polyester", synonyms: [poly]}
+      - {value: denim,     label: "Denim"}
+      - {value: silk,      label: "Silk",      synonyms: [art silk]}
+      - {value: georgette, label: "Georgette"}
+      - {value: chiffon,   label: "Chiffon"}
+      - {value: wool,      label: "Wool",      synonyms: [woollen, woolen]}
+      - {value: blend,     label: "Blend",     synonyms: [blended, mixed fabric]}
+
+  - key: height_cm
+    label: Your height
+    help: Hidden by default. Helps people your height judge length and fit.
+    type: int
+    unit: cm
+    min: 100
+    max: 230
+    role: soft
+    personal: true
+
+  - key: after_washes
+    label: After a few washes
+    type: single
+    role: rank
+    options:
+      - {value: like_new,        label: "Still like new",  synonyms: [no fading, still new]}
+      - {value: slight_fading,   label: "Slight fading",   synonyms: [faded a little]}
+      - {value: faded_or_shrunk, label: "Faded or shrunk", synonyms: [faded, shrunk, colour bled, color bleed]}
+
+assign:
+  - {field: price_paid,     step: details, default_ticked: true, template: product, config: {price_bands: [300, 500, 1000, 2000, 5000]}}
+  - {field: brand_or_store, step: details, default_ticked: true, template: product}
+  - {field: size_bought,    step: details, default_ticked: true, kinds: [topwear, bottomwear, ethnic_wear, dresses, winterwear]}
+  - {field: shoe_size,      step: details, default_ticked: true, kinds: [footwear]}
+  - {field: fit,            step: details, default_ticked: true, kinds: [topwear, bottomwear, ethnic_wear, dresses, winterwear, footwear]}
+  - {field: wear_occasion,  step: details, default_ticked: true, template: product}
+  - {field: fabric,         step: details, kinds: [topwear, bottomwear, ethnic_wear, dresses, winterwear]}
+  - {field: height_cm,      step: details, kinds: [topwear, bottomwear, ethnic_wear, dresses]}
+  - {field: price_level,    step: details, default_ticked: true, kinds: [store]}
+  - {field: after_washes,   step: verdict, kinds: [topwear, bottomwear, ethnic_wear, dresses, winterwear]}

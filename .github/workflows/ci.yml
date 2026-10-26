@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: blabzu
+          POSTGRES_PASSWORD: blabzu
+          POSTGRES_DB: blabzu
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U blabzu"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://blabzu:blabzu@localhost:5432/blabzu
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r backend/requirements-dev.txt
+      - name: Validate vocabulary YAML
+        run: python backend/scripts/seed_fields.py --check
+      - name: Migrate and seed
+        run: |
+          python backend/scripts/migrate.py
+          python backend/scripts/seed_fields.py
+      - name: Tests
+        run: python -m pytest backend/tests -q

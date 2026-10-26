@@ -1,0 +1,126 @@
+# Shared vocabulary: area tiles, the prompt library, and fields used across areas.
+# Area-specific kinds and fields live in <area>.yaml next to this file.
+#
+# Field keys are global: define a field once (here or in one area file), then
+# assign it wherever it should appear. The Typesense field name is f_<key>.
+#
+# role:  hard = filter | soft = ranking boost | rank = quality signal
+#        text = searchable text | display = shown on the note only
+# facet: defaults to true for hard/soft/rank, false otherwise
+
+areas:   # order = tile order on "What's this about?"
+  - {id: beauty,   label: "Beauty & skincare", launch: true}
+  - {id: fashion,  label: "Fashion",           launch: true}
+  - {id: gadgets,  label: "Gadgets & tech",    launch: true}
+  - {id: home,     label: "Home & kitchen",    active: false}
+  - {id: food,     label: "Cafés & food",      launch: true}
+  - {id: travel,   label: "Travel & stays",    active: false}
+  - {id: health,   label: "Health & fitness",  active: false}
+  - {id: services, label: "Services",          active: false}
+  - {id: learning, label: "Learning & books",  active: false}
+  - {id: other,    label: "Something else"}
+
+prompts:
+  - {key: worth_it_because, label: "Worth it because…"}
+  - {key: skip_it_if,       label: "Skip it if…"}
+  - {key: best_for,         label: "Best for…"}
+  - {key: wish_i_knew,      label: "I wish I'd known…"}
+  - {key: how_i_use_it,     label: "How I use it…",                  template: product}
+  - {key: compared_to,      label: "Compared to what I used before…", template: product}
+  - {key: must_order,       label: "Must order…",                    template: place}
+  - {key: go_when,          label: "Go when…",                       template: place}
+
+fields:
+  - key: price_paid
+    label: Price you paid
+    help: What you actually paid, in rupees
+    type: money
+    unit: INR
+    min: 0
+    max: 10000000
+    role: hard
+
+  - key: price_level
+    label: Price range
+    type: single
+    role: hard
+    options:
+      - {value: budget,    label: "Budget",    synonyms: [cheap, affordable, budget friendly, pocket friendly]}
+      - {value: mid_range, label: "Mid-range", synonyms: [mid range, moderate, reasonable]}
+      - {value: premium,   label: "Premium",   synonyms: [expensive, high end, luxury, pricey]}
+
+  - key: rating
+    label: Your rating
+    type: int
+    min: 1
+    max: 5
+    role: rank
+    options:
+      - {value: 1, label: "1 · Skip it"}
+      - {value: 2, label: "2 · Meh"}
+      - {value: 3, label: "3 · Okay"}
+      - {value: 4, label: "4 · Good"}
+      - {value: 5, label: "5 · Love it"}
+
+  - key: used_for_months
+    label: How long you've used it
+    type: int
+    unit: months
+    min: 0
+    max: 240
+    role: rank
+    options:
+      - {value: 0,  label: "Less than a month"}
+      - {value: 1,  label: "About a month"}
+      - {value: 3,  label: "3 months"}
+      - {value: 6,  label: "6 months"}
+      - {value: 12, label: "A year or more"}
+
+  - key: would_buy_again
+    label: Would you buy it again?
+    type: bool
+    role: rank
+
+  - key: visits
+    label: How many times you've been
+    type: single
+    role: rank
+    options:
+      - {value: first_visit, label: "First time",    synonyms: [first time, one visit]}
+      - {value: few_visits,  label: "2–5 times",     synonyms: [few times, couple of times]}
+      - {value: regular,     label: "I'm a regular", synonyms: [regular, regulars, frequent]}
+
+  - key: would_go_again
+    label: Would you go again?
+    type: bool
+    role: rank
+
+  - key: audience
+    label: Who is this for?
+    type: multi
+    role: soft
+    options:
+      - {value: students,              label: "Students",              synonyms: [student, college students, hostel]}
+      - {value: beginners,             label: "Beginners",             synonyms: [beginner, first time, newbie, starter]}
+      - {value: budget_buyers,         label: "Budget buyers",         synonyms: [on a budget, tight budget]}
+      - {value: working_professionals, label: "Working professionals", synonyms: [office goers, professionals, working people]}
+      - {value: parents,               label: "Parents",               synonyms: [new parents, moms, dads]}
+      - {value: seniors,               label: "Seniors",               synonyms: [elderly, senior citizens, older adults]}
+      - {value: men,                   label: "Men",                   synonyms: [for men, mens], areas: [beauty, fashion]}
+      - {value: women,                 label: "Women",                 synonyms: [for women, womens], areas: [beauty, fashion]}
+      - {value: petite,                label: "Petite",                synonyms: [short height], areas: [fashion]}
+      - {value: tall,                  label: "Tall",                  synonyms: [tall people], areas: [fashion]}
+      - {value: plus_size,             label: "Plus size",             synonyms: [plus size, curvy], areas: [fashion]}
+      - {value: gamers,                label: "Gamers",                synonyms: [gamer], areas: [gadgets]}
+      - {value: creators,              label: "Creators",              synonyms: [content creators, youtubers, vloggers], areas: [gadgets]}
+      - {value: families,              label: "Families with kids",    synonyms: [families, with kids], areas: [food]}
+
+assign:
+  # Verdict step: optional fields, by template
+  - {field: rating,          step: verdict, default_ticked: true}
+  - {field: used_for_months, step: verdict, template: product, default_ticked: true}
+  - {field: would_buy_again, step: verdict, template: product}
+  - {field: visits,          step: verdict, template: place, default_ticked: true}
+  - {field: would_go_again,  step: verdict, template: place}
+  # Note settings (after posting)
+  - {field: audience,        step: settings}

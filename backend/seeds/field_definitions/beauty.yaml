@@ -1,0 +1,150 @@
+area: beauty
+
+kinds:
+  - {id: sunscreen,  label: "Sunscreen",            template: product, synonyms: [sunblock, spf, sun screen, sun cream, sunscreen gel]}
+  - {id: moisturiser, label: "Moisturiser",         template: product, synonyms: [moisturizer, face cream, moisturising cream, moisturizing cream, day cream, night cream]}
+  - {id: cleanser,   label: "Face wash & cleanser", template: product, synonyms: [face wash, facewash, cleanser, foaming cleanser]}
+  - {id: serum,      label: "Serum",                template: product, synonyms: [face serum, vitamin c serum, niacinamide serum]}
+  - {id: toner,      label: "Toner & mist",         template: product, synonyms: [face toner, face mist]}
+  - {id: lip_care,   label: "Lip care",             template: product, synonyms: [lip balm, lip mask, lip scrub]}
+  - {id: makeup,     label: "Makeup",               template: product, synonyms: [foundation, concealer, compact, kajal, kohl, lipstick, mascara, eyeliner, blush]}
+  - {id: hair_care,  label: "Hair care",            template: product, synonyms: [shampoo, conditioner, hair oil, hair serum, hair mask]}
+  - {id: body_care,  label: "Body care",            template: product, synonyms: [body lotion, body wash, body butter, shower gel]}
+  - {id: fragrance,  label: "Fragrance",            template: product, synonyms: [perfume, deo, deodorant, body mist, attar, ittar]}
+  - {id: salon,      label: "Salon & spa",          template: place,   synonyms: [parlour, parlor, beauty parlour, beauty salon, spa, hair salon]}
+
+fields:
+  - key: skin_type
+    label: Skin type
+    type: multi
+    role: soft
+    options:
+      - {value: oily,        label: "Oily",        synonyms: [oily skin, greasy skin]}
+      - {value: dry,         label: "Dry",         synonyms: [dry skin, flaky skin]}
+      - {value: combination, label: "Combination", synonyms: [combination skin, combo skin, combi skin]}
+      - {value: normal,      label: "Normal",      synonyms: [normal skin]}
+      - {value: sensitive,   label: "Sensitive",   synonyms: [sensitive skin, reactive skin]}
+
+  - key: skin_concern
+    label: Skin concern
+    type: multi
+    role: soft
+    options:
+      - {value: acne,         label: "Acne",          synonyms: [acne prone, pimples, breakouts]}
+      - {value: acne_marks,   label: "Acne marks",    synonyms: [acne scars, pimple marks, post acne marks]}
+      - {value: tanning,      label: "Tan",           synonyms: [tan, sun tan, suntan, detan, de tan]}
+      - {value: pigmentation, label: "Pigmentation",  synonyms: [dark spots, hyperpigmentation, uneven skin tone]}
+      - {value: dullness,     label: "Dullness",      synonyms: [dull skin, glow, glowing skin]}
+      - {value: dehydration,  label: "Dehydration",   synonyms: [dehydrated skin, tight skin]}
+      - {value: excess_oil,   label: "Excess oil",    synonyms: [oil control, oily t zone, shine]}
+      - {value: open_pores,   label: "Open pores",    synonyms: [pores, large pores, enlarged pores]}
+      - {value: dark_circles, label: "Dark circles",  synonyms: [dark circle, under eye, puffy eyes]}
+      - {value: ageing,       label: "Ageing",        synonyms: [anti ageing, anti aging, fine lines, wrinkles]}
+      - {value: redness,      label: "Redness",       synonyms: [irritation, red patches]}
+
+  - key: hair_type
+    label: Hair type
+    type: single
+    role: soft
+    options:
+      - {value: straight, label: "Straight", synonyms: [straight hair]}
+      - {value: wavy,     label: "Wavy",     synonyms: [wavy hair]}
+      - {value: curly,    label: "Curly",    synonyms: [curly hair, curls]}
+
+  - key: hair_concern
+    label: Hair concern
+    type: multi
+    role: soft
+    options:
+      - {value: hair_fall,    label: "Hair fall",       synonyms: [hairfall, hair loss, hair thinning]}
+      - {value: dandruff,     label: "Dandruff",        synonyms: [flaky scalp, itchy scalp]}
+      - {value: frizz,        label: "Frizz",           synonyms: [frizzy hair, frizzy]}
+      - {value: dry_damaged,  label: "Dry or damaged",  synonyms: [dry hair, damaged hair, rough hair]}
+      - {value: split_ends,   label: "Split ends",      synonyms: [split end]}
+      - {value: oily_scalp,   label: "Oily scalp",      synonyms: [greasy scalp, greasy hair]}
+      - {value: greying,      label: "Greying",         synonyms: [grey hair, white hair, premature greying]}
+
+  - key: pack_size
+    label: Size or quantity
+    help: e.g. 50 g, 100 ml
+    type: text
+    role: text
+
+  - key: skin_tone
+    label: Your skin tone
+    help: Hidden by default. Used to match you with people like you.
+    type: single
+    role: soft
+    personal: true
+    options:
+      - {value: light,        label: "Light",        synonyms: [fair]}
+      - {value: light_medium, label: "Light-medium", synonyms: [wheatish]}
+      - {value: medium,       label: "Medium"}
+      - {value: medium_deep,  label: "Medium-deep",  synonyms: [dusky]}
+      - {value: deep,         label: "Deep",         synonyms: [dark]}
+
+  - key: undertone
+    label: Undertone
+    type: single
+    role: soft
+    options:
+      - {value: warm,    label: "Warm",    synonyms: [warm undertone, yellow undertone]}
+      - {value: cool,    label: "Cool",    synonyms: [cool undertone, pink undertone]}
+      - {value: neutral, label: "Neutral", synonyms: [neutral undertone]}
+
+  - key: shade_used
+    label: Shade you used
+    type: text
+    role: text
+
+  - key: white_cast
+    label: White cast
+    type: single
+    role: soft
+    options:
+      - {value: no_cast,     label: "None",   synonyms: [no white cast, no cast, invisible]}
+      - {value: slight_cast, label: "Slight", synonyms: [slight white cast, little white cast]}
+      - {value: heavy_cast,  label: "Heavy",  synonyms: [heavy white cast, chalky, ashy]}
+
+  - key: longevity
+    label: How long it lasts
+    type: single
+    role: soft
+    options:
+      - {value: short,         label: "Under 2 hours", synonyms: [fades fast, doesn't last]}
+      - {value: moderate,      label: "2–6 hours",     synonyms: [moderate longevity]}
+      - {value: long_lasting,  label: "6+ hours",      synonyms: [long lasting, all day, beast mode]}
+
+  - key: scent_family
+    label: Scent
+    type: multi
+    role: soft
+    options:
+      - {value: fresh,  label: "Fresh",  synonyms: [aquatic, clean scent]}
+      - {value: floral, label: "Floral", synonyms: [flowery, rose, jasmine]}
+      - {value: woody,  label: "Woody",  synonyms: [sandalwood, cedar]}
+      - {value: sweet,  label: "Sweet",  synonyms: [vanilla, gourmand]}
+      - {value: citrus, label: "Citrus", synonyms: [lemony, orange scent]}
+      - {value: spicy,  label: "Spicy",  synonyms: [warm spicy]}
+      - {value: oud,    label: "Oud",    synonyms: [oudh, agarwood]}
+
+  - key: services_tried
+    label: Services you tried
+    help: e.g. haircut, facial, manicure
+    type: text_list
+    role: text
+
+assign:
+  - {field: price_paid,     step: details, default_ticked: true, config: {price_bands: [300, 500, 1000, 2000]}}
+  - {field: skin_type,      step: details, default_ticked: true, kinds: [sunscreen, moisturiser, cleanser, serum, toner, makeup, body_care]}
+  - {field: skin_concern,   step: details, default_ticked: true, kinds: [sunscreen, moisturiser, cleanser, serum, toner, body_care]}
+  - {field: hair_type,      step: details, default_ticked: true, kinds: [hair_care]}
+  - {field: hair_concern,   step: details, default_ticked: true, kinds: [hair_care]}
+  - {field: longevity,      step: details, default_ticked: true, kinds: [fragrance]}
+  - {field: scent_family,   step: details, default_ticked: true, kinds: [fragrance]}
+  - {field: services_tried, step: details, default_ticked: true, kinds: [salon]}
+  - {field: pack_size,      step: details, template: product}
+  - {field: skin_tone,      step: details, kinds: [sunscreen, makeup]}
+  - {field: undertone,      step: details, kinds: [makeup]}
+  - {field: shade_used,     step: details, kinds: [makeup]}
+  - {field: white_cast,     step: verdict, default_ticked: true, kinds: [sunscreen]}

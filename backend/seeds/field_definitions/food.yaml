@@ -1,0 +1,97 @@
+area: food
+
+kinds:
+  - {id: cafe,            label: "Café",               template: place, synonyms: [cafe, coffee shop, cafes, coffee place]}
+  - {id: restaurant,      label: "Restaurant",         template: place, synonyms: [restaurants, family restaurant, fine dining, dine out]}
+  - {id: street_food,     label: "Street food",        template: place, synonyms: [street food stall, chaat, food stall, thela, food cart]}
+  - {id: dhaba,           label: "Dhaba",              template: place, synonyms: [highway dhaba, punjabi dhaba]}
+  - {id: bakery_desserts, label: "Bakery & desserts",  template: place, synonyms: [bakery, desserts, cake shop, ice cream, sweet shop, mithai, halwai]}
+  - {id: bar_pub,         label: "Bar & pub",          template: place, synonyms: [pub, bar, brewery, microbrewery, lounge]}
+  - {id: cloud_kitchen,   label: "Delivery-only kitchen", template: place, synonyms: [cloud kitchen, delivery only, home chef]}
+  - {id: tiffin_mess,     label: "Tiffin & mess",      template: place, synonyms: [tiffin, tiffin service, mess, dabba]}
+
+fields:
+  - key: cost_for_two
+    label: Cost for two
+    help: Roughly what two people spend, in rupees
+    type: money
+    unit: INR
+    min: 0
+    max: 100000
+    role: hard
+
+  - key: dishes_tried
+    label: Dishes you tried
+    type: text_list
+    role: text
+
+  - key: veg_type
+    label: Veg or non-veg
+    type: single
+    role: hard
+    options:
+      - {value: pure_veg,       label: "Pure veg",        synonyms: [pure veg, veg only, vegetarian, shudh shakahari]}
+      - {value: serves_non_veg, label: "Serves non-veg",  synonyms: [non veg, nonveg, non vegetarian, veg and non veg]}
+
+  - key: cuisine
+    label: Cuisine
+    type: multi
+    role: soft
+    options:
+      - {value: north_indian,  label: "North Indian",  synonyms: [north indian, punjabi]}
+      - {value: south_indian,  label: "South Indian",  synonyms: [south indian, udupi, chettinad]}
+      - {value: mughlai,       label: "Mughlai",       synonyms: [awadhi, lucknowi]}
+      - {value: indo_chinese,  label: "Indo-Chinese",  synonyms: [chinese, chindian, hakka, desi chinese]}
+      - {value: italian,       label: "Italian"}
+      - {value: continental,   label: "Continental"}
+      - {value: pan_asian,     label: "Pan-Asian",     synonyms: [asian, thai, japanese, korean]}
+      - {value: fast_food,     label: "Fast food",     synonyms: [burgers, fries, quick service restaurant]}
+      - {value: coastal,       label: "Coastal",       synonyms: [goan, malvani, mangalorean, kerala]}
+      - {value: gujarati,      label: "Gujarati"}
+      - {value: rajasthani,    label: "Rajasthani"}
+      - {value: bengali,       label: "Bengali"}
+      - {value: maharashtrian, label: "Maharashtrian"}
+      - {value: desserts,      label: "Desserts",      synonyms: [sweets, dessert]}
+
+  - key: dining_occasion
+    label: Occasion
+    type: multi
+    role: soft
+    options:
+      - {value: date,         label: "Date",          synonyms: [date night, romantic, couple, couples]}
+      - {value: family,       label: "Family",        synonyms: [family dinner, family lunch, with family]}
+      - {value: solo,         label: "Solo",          synonyms: [alone, solo date]}
+      - {value: friends,      label: "Friends",       synonyms: [group, hangout, gang, friends hangout]}
+      - {value: work_meeting, label: "Work meeting",  synonyms: [business meeting, client meeting, office lunch]}
+      - {value: celebration,  label: "Celebration",   synonyms: [birthday, anniversary, party]}
+
+  - key: service_mode
+    label: How you had it
+    type: multi
+    role: hard
+    options:
+      - {value: dine_in,  label: "Dine-in",  synonyms: [dine in, sit down]}
+      - {value: takeaway, label: "Takeaway", synonyms: [takeout, parcel, take away]}
+      - {value: delivery, label: "Delivery", synonyms: [home delivery, online order, ordered online]}
+
+  - key: good_for
+    label: Good for
+    type: multi
+    role: soft
+    options:
+      - {value: working,         label: "Working",         synonyms: [work friendly, laptop friendly, wifi, work from cafe]}
+      - {value: late_night,      label: "Late night",      synonyms: [open late, midnight, late night food]}
+      - {value: outdoor_seating, label: "Outdoor seating", synonyms: [rooftop, outdoor, terrace, open air]}
+      - {value: kids,            label: "Kids",            synonyms: [kid friendly, kids friendly, children]}
+      - {value: pets,            label: "Pets",            synonyms: [pet friendly, dog friendly]}
+      - {value: quick_bite,      label: "Quick bite",      synonyms: [quick bite, fast service]}
+      - {value: live_music,      label: "Live music",      synonyms: [live band, live performance]}
+
+assign:
+  - {field: cost_for_two,    step: details, default_ticked: true, config: {price_bands: [300, 500, 1000, 2000]}}
+  - {field: dishes_tried,    step: details, default_ticked: true}
+  - {field: veg_type,        step: details, default_ticked: true}
+  - {field: service_mode,    step: details, default_ticked: true}
+  - {field: dining_occasion, step: details, default_ticked: true, kinds: [cafe, restaurant, bar_pub, dhaba, bakery_desserts]}
+  - {field: cuisine,         step: details, kinds: [restaurant, cafe, cloud_kitchen, dhaba, tiffin_mess]}
+  - {field: good_for,        step: details, kinds: [cafe, restaurant, bar_pub, dhaba, bakery_desserts, street_food]}

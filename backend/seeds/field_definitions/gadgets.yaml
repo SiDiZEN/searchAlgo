@@ -1,0 +1,82 @@
+area: gadgets
+
+kinds:
+  - {id: phone,       label: "Phone",              template: product, synonyms: [mobile, smartphone, cellphone, mobile phone]}
+  - {id: earbuds,     label: "Earbuds & earphones", template: product, synonyms: [tws, earphones, wireless earbuds, true wireless, neckband, bluetooth earphones]}
+  - {id: headphones,  label: "Headphones",         template: product, synonyms: [headset, over ear headphones, on ear headphones, gaming headset]}
+  - {id: laptop,      label: "Laptop",             template: product, synonyms: [notebook, gaming laptop, ultrabook]}
+  - {id: smartwatch,  label: "Smartwatch & band",  template: product, synonyms: [smart watch, fitness band, smart band, fitness tracker]}
+  - {id: tablet,      label: "Tablet",             template: product, synonyms: [tab]}
+  - {id: speaker,     label: "Speaker",            template: product, synonyms: [bluetooth speaker, soundbar, portable speaker]}
+  - {id: accessories, label: "Accessories",        template: product, synonyms: [charger, power bank, powerbank, cable, phone case, phone cover, adapter]}
+
+fields:
+  - key: ram_gb
+    label: RAM
+    type: int
+    unit: GB
+    min: 1
+    max: 256
+    role: soft
+    options:
+      - {value: 4,  label: "4 GB"}
+      - {value: 6,  label: "6 GB"}
+      - {value: 8,  label: "8 GB"}
+      - {value: 12, label: "12 GB"}
+      - {value: 16, label: "16 GB"}
+      - {value: 32, label: "32 GB"}
+
+  - key: storage_gb
+    label: Storage
+    type: int
+    unit: GB
+    min: 8
+    max: 8192
+    role: soft
+    options:
+      - {value: 64,   label: "64 GB"}
+      - {value: 128,  label: "128 GB"}
+      - {value: 256,  label: "256 GB"}
+      - {value: 512,  label: "512 GB"}
+      - {value: 1024, label: "1 TB"}
+
+  - key: main_use
+    label: Main use
+    type: multi
+    role: soft
+    options:
+      - {value: gaming,           label: "Gaming",           synonyms: [games, bgmi, gaming performance], kinds: [phone, laptop, tablet, earbuds, headphones]}
+      - {value: camera,           label: "Camera",           synonyms: [photos, photography, selfies, selfie], kinds: [phone, tablet]}
+      - {value: battery,          label: "Battery life",     synonyms: [battery life, battery backup, long battery]}
+      - {value: work_study,       label: "Work or study",    synonyms: [work, office work, study, online classes, coding]}
+      - {value: music,            label: "Music",            synonyms: [songs, audio, bass], kinds: [phone, earbuds, headphones, speaker]}
+      - {value: calls,            label: "Calls",            synonyms: [calling, call quality, meetings], kinds: [phone, earbuds, headphones, smartwatch]}
+      - {value: fitness,          label: "Fitness",          synonyms: [workout, gym, running, steps], kinds: [smartwatch, earbuds, headphones]}
+      - {value: content_creation, label: "Content creation", synonyms: [vlogging, reels, youtube, video editing], kinds: [phone, laptop, tablet]}
+      - {value: streaming,        label: "Movies & shows",   synonyms: [movies, web series, ott, binge watching], kinds: [phone, laptop, tablet, speaker, headphones, earbuds]}
+
+  - key: bought_in_sale
+    label: Bought in a sale?
+    type: bool
+    role: display
+
+  - key: service_experience
+    label: After-sales service
+    type: single
+    role: rank
+    options:
+      - {value: good,       label: "Good",           synonyms: [good service, quick service]}
+      - {value: okay,       label: "Okay"}
+      - {value: bad,        label: "Bad",            synonyms: [bad service, poor service, service centre issue]}
+      - {value: not_needed, label: "Haven't needed it"}
+
+assign:
+  - {field: price_paid,         step: details, default_ticked: true, config: {price_bands: [1000, 2000, 5000, 10000, 20000, 50000]}}
+  - {field: price_paid,         step: details, default_ticked: true, kinds: [phone],   config: {price_bands: [10000, 15000, 20000, 30000, 50000]}}
+  - {field: price_paid,         step: details, default_ticked: true, kinds: [laptop],  config: {price_bands: [30000, 50000, 70000, 100000]}}
+  - {field: price_paid,         step: details, default_ticked: true, kinds: [earbuds], config: {price_bands: [1000, 2000, 3000, 5000]}}
+  - {field: ram_gb,             step: details, default_ticked: true, kinds: [phone, laptop, tablet]}
+  - {field: storage_gb,         step: details, default_ticked: true, kinds: [phone, laptop, tablet]}
+  - {field: main_use,           step: details, default_ticked: true, template: product}
+  - {field: bought_in_sale,     step: details, template: product}
+  - {field: service_experience, step: verdict, kinds: [phone, laptop, tablet, earbuds, headphones, smartwatch]}

@@ -1,0 +1,9 @@
+# "Something else": the fallback tile. Only the shared verdict/settings fields
+# plus price apply; creators add their own fields for the rest.
+area: other
+
+kinds:
+  - {id: general, label: "Something else", template: other}
+
+assign:
+  - {field: price_paid, step: details}
